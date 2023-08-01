@@ -4,15 +4,16 @@ import cv2
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-from src.train.network import create_model
-from src.data_preparation.data_splitting import train_valid_test_split
+from src.train.network import Model
+from src.data_preparation.data_splitting import DataSplitter
 from src.constants import NUM_CLASSES, IMG_DIR, DEVICE, CLASSES, WEIGHTS20_PATH
 
 
 def test_model():
-    train_set, valid_set, test_set = train_valid_test_split(img_dir=IMG_DIR)
+    data_splitter = DataSplitter(img_dir=IMG_DIR)
+    train_set, valid_set, test_set = data_splitter.split()
 
-    model = create_model(NUM_CLASSES)
+    model = Model(NUM_CLASSES, pretrained=True)
     model.load_state_dict(torch.load(WEIGHTS20_PATH, map_location=DEVICE))
     model.eval()
 
@@ -75,6 +76,3 @@ def test_model():
         print(f"Image {i+1} done...")
         print('-'*50)
     print('TEST PREDICTIONS COMPLETE')
-
-
-test_model()

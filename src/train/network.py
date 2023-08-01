@@ -23,3 +23,9 @@ class Model:
 
     def to(self, device):
         return self.model.to(device)
+
+    def eval(self):
+        self.model.eval()
+
+    def load_state_dict(self, weights):
+        self.model.load_state_dict(weights)
