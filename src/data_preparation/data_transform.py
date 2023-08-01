@@ -1,16 +1,17 @@
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
+from src.constants import FLIP_PROB, ROTATE90_PROB, MOTION_BLUR_PROB, \
+                    MEDIAN_BLUR_PROB, BLUR_LIMIT, BLUR_PROB, \
+                    TO_TENSOR_PROB, BBOX_PARAMS
+
 
 def get_train_transform():
     return A.Compose([
-        A.Flip(0.5),
-        A.RandomRotate90(0.5),
-        A.MotionBlur(p=0.2),
-        A.MedianBlur(blur_limit=5, p=0.2),
-        A.Blur(blur_limit=5, p=0.2),
-        ToTensorV2(p=1.0),
-    ], bbox_params={
-        'format': 'pascal_voc',
-        'label_fields': ['labels']
-    })
+        A.Flip(FLIP_PROB),
+        A.RandomRotate90(ROTATE90_PROB),
+        A.MotionBlur(p=MOTION_BLUR_PROB),
+        A.MedianBlur(blur_limit=BLUR_LIMIT, p=MEDIAN_BLUR_PROB),
+        A.Blur(blur_limit=BLUR_LIMIT, p=BLUR_PROB),
+        ToTensorV2(p=TO_TENSOR_PROB),
+    ], bbox_params=BBOX_PARAMS)

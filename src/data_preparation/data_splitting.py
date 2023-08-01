@@ -2,25 +2,31 @@ import os
 import random
 
 
-def train_valid_test_split(img_dir, train_split=0.15, test_split=0.15):
-    files = os.listdir(img_dir)
+class DataSplitter:
+    def __init__(self, img_dir, train_split=0.15, test_split=0.15):
+        self.img_dir = img_dir
+        self.train_split = train_split
+        self.test_split = test_split
 
-    all_img = files
+    def split(self):
+        files = os.listdir(self.img_dir)
 
-    random.shuffle(all_img)
+        all_img = files
 
-    len_imgs = len(all_img)
+        random.shuffle(all_img)
 
-    train_test_split = int((1-train_split)*len_imgs)
+        len_imgs = len(all_img)
 
-    train_val_df = all_img[:train_test_split]
-    test_df = all_img[train_test_split:]
+        train_test_split = int((1-self.train_split)*len_imgs)
 
-    len_df = len(train_val_df)
+        train_val_df = all_img[:train_test_split]
+        test_df = all_img[train_test_split:]
 
-    train_val_split = int((1-test_split)*len_df)
+        len_df = len(train_val_df)
 
-    train_df = train_val_df[:train_val_split]
-    valid_df = train_val_df[train_val_split:]
+        train_val_split = int((1-self.test_split)*len_df)
 
-    return train_df, valid_df, test_df
+        train_df = train_val_df[:train_val_split]
+        valid_df = train_val_df[train_val_split:]
+
+        return train_df, valid_df, test_df

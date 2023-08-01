@@ -1,13 +1,13 @@
 import torch
 import time
 import matplotlib.pyplot as plt
-from src.train.network import create_model
+from src.train.network import Model
 from src.train.loss_counter import LossCounter
 from src.train.network_train import train
 from src.train.network_validate import validate
 from src.data_preparation.dataset_class import MaskDataset
-from src.data_preparation.data_splitting import train_valid_test_split
-from torch.utils.data import DataLoader, Dataset, ConcatDataset
+from src.data_preparation.data_splitting import DataSplitter
+from torch.utils.data import DataLoader, ConcatDataset
 from src.data_preparation.data_transform import get_train_transform
 from src.data_preparation.supportive import collate_fn
 from src.constants import SAVE_MODEL_EPOCH, NUM_EPOCHS, NUM_CLASSES, DEVICE, \
@@ -18,7 +18,8 @@ from src.constants import SAVE_MODEL_EPOCH, NUM_EPOCHS, NUM_CLASSES, DEVICE, \
 def run_training():
     plt.style.use(PLT_STYLE)
 
-    train_set, valid_set, test_set = train_valid_test_split(img_dir=IMG_DIR)
+    data_splitter = DataSplitter(img_dir=IMG_DIR)
+    train_set, valid_set, test_set = data_splitter.split()
 
     train_dataset = MaskDataset(train_set, RESIZE_SIZE, RESIZE_SIZE, CLASSES, IMG_DIR, LABEL_DIR)
     trans_train_dataset = MaskDataset(train_set, RESIZE_SIZE, RESIZE_SIZE, CLASSES, IMG_DIR, LABEL_DIR,
@@ -46,7 +47,7 @@ def run_training():
     print(f'Number of training samples: {len(train_dataset)}')
     print(f'Number of validation samples: {len(valid_dataset)}\n')
 
-    model = create_model(num_classes=NUM_CLASSES)
+    model = Model(NUM_CLASSES, 'FasterRCNN', pretrained=False)
     model = model.to(DEVICE)
 
     params = [p for p in model.parameters() if p.requires_grad]
@@ -84,4 +85,5 @@ def run_training():
             print('SAVING MODEL COMPLETE...\n')
 
 
-run_training()
+if __name__ == '__main__':
+    run_training()
