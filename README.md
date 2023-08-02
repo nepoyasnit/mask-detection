@@ -5,5 +5,5 @@
 - Dataset was taken from Kaggle(https://www.kaggle.com/datasets/andrewmvd/face-mask-detection)
 - Pre-trained FasterRCNN model was used for object detection
 - 20 training epochs
-- Weights was saved from 18 and 20 epochs
+- Weights were saved in 18 and 20 epochs
 - SGD + momentum was taken as optimizer
