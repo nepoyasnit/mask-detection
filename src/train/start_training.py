@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader, ConcatDataset
 from src.data_preparation.data_transform import get_train_transform
 from src.data_preparation.supportive import collate_fn
 from src.constants import SAVE_MODEL_EPOCH, NUM_EPOCHS, NUM_CLASSES, DEVICE, \
-    RESIZE_SIZE, CLASSES, IMG_DIR, LABEL_DIR, BATCH_SIZE, SAVE_MODEL_PATH, EPOCH_INDICATOR_STR, \
+    RESIZE_SIZE, PRED_CLASSES, IMG_DIR, LABEL_DIR, BATCH_SIZE, SAVE_MODEL_PATH, EPOCH_INDICATOR_STR, \
     TRAIN_LOSS_INDICATOR_STR, VALID_LOSS_INDICATOR_STR, TIME_INDICATOR_STR, PLT_STYLE
 
 
@@ -21,10 +21,10 @@ def run_training():
     data_splitter = DataSplitter(img_dir=IMG_DIR)
     train_set, valid_set, test_set = data_splitter.split()
 
-    train_dataset = MaskDataset(train_set, RESIZE_SIZE, RESIZE_SIZE, CLASSES, IMG_DIR, LABEL_DIR)
-    trans_train_dataset = MaskDataset(train_set, RESIZE_SIZE, RESIZE_SIZE, CLASSES, IMG_DIR, LABEL_DIR,
+    train_dataset = MaskDataset(train_set, RESIZE_SIZE, RESIZE_SIZE, PRED_CLASSES, IMG_DIR, LABEL_DIR)
+    trans_train_dataset = MaskDataset(train_set, RESIZE_SIZE, RESIZE_SIZE, PRED_CLASSES, IMG_DIR, LABEL_DIR,
                                       get_train_transform())
-    valid_dataset = MaskDataset(valid_set, RESIZE_SIZE, RESIZE_SIZE, CLASSES, IMG_DIR, LABEL_DIR)
+    valid_dataset = MaskDataset(valid_set, RESIZE_SIZE, RESIZE_SIZE, PRED_CLASSES, IMG_DIR, LABEL_DIR)
 
     train_dataset = ConcatDataset([train_dataset, trans_train_dataset])
 

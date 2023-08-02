@@ -8,6 +8,7 @@ BATCH_SIZE = 4
 RESIZE_SIZE = 400
 SAVE_MODEL_EPOCH = 2
 NUM_EPOCHS = 20
+DETECTION_THRESHOLD = 0.7
 PLT_STYLE = 'ggplot'
 MODEL_NAME = 'fasterrcnn_model'
 EPOCH_INDICATOR_STR = "\nEPOCH: {epoch} of {epochs}"
@@ -27,7 +28,7 @@ BBOX_PARAMS = {'format': 'pascal_voc', 'label_fields': ['labels']}
 
 DEVICE = torch.device('cuda') if torch.cuda.is_available() \
                               else torch.device('cpu')
-CLASSES = ['background', 'without_mask', 'with_mask', 'mask_weared_incorrect']
+PRED_CLASSES = ['background', 'without_mask', 'with_mask', 'mask_weared_incorrect']
 NUM_CLASSES = 4
 
 # Exceptions
